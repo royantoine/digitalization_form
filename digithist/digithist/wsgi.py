@@ -1,5 +1,5 @@
 """
-WSGI config for DigitDoc project.
+WSGI config for digithist project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'DigitDoc.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'digithist.settings')
 
 application = get_wsgi_application()
