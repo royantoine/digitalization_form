@@ -1,0 +1,15 @@
+{% extends 'documents/base.html' %}
+
+{% block content %}
+
+<h1>Supprimer un document</h1>
+
+<p>Etes-vous sûr de vouloir supprimer le document : {{ document.path }} ?</p>
+
+<form action="" method="post">
+{% csrf_token %}
+<input type="submit" value="Supprimer">
+</form>
+
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'documents/base.html' %}
+
+{% block content %}
+
+<h2>{{ document.path }}</h2>
+
+<ul>
+ <li>Type : {{ document.type }}</li>
+ <li>Path : {{ document.path }}</li>
+ <li>Description : {{ document.description }}</li>
+</ul>
+
+<a href="{% url 'document-list' %}">Retour à la liste des documents</a>
+<a href="{% url 'document-update' document.id %}">Modifier ce document</a>
+<a href="{% url 'document-delete' document.id %}">Supprimer ce document</a>
+
+{% endblock %}

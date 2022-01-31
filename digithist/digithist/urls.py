@@ -15,7 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from documents import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('document/add_folder', views.folder_create, name = 'folder-create'),
+    path('', views.document_list, name='document-list'),
+    path('document/', views.document_list, name='document-list'),
+    path('document/<int:id>/', views.document_detail, name='document-detail'),
+    path('document/add/', views.document_create, name='document-create'),
+    path('document/<int:id>/update', views.document_update, name='document-update'),
+    path('document/<int:id>/delete', views.document_delete, name='document-delete')
 ]

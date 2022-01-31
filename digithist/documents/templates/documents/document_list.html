@@ -1,0 +1,18 @@
+{% extends 'documents/base.html' %}
+
+{% block content %}
+
+<h1>Documents</h1>
+
+<a href="{% url 'folder-create' %}">Ajouter une nouvelle liste de documents à partir d'un fichier</a>
+
+<ul>
+ {% for document in documents %}
+ <li><a href="/document/{{ document.id }}/">{{ document.path }}</a></li>
+ - <a href="{% url 'document-update' document.id %}">[modifier]</a>
+ - <a href="{% url 'document-delete' document.id %}">[supprimer]</a>
+
+ {% endfor %}
+</ul>
+
+{% endblock %}
