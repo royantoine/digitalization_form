@@ -2,32 +2,39 @@
 
 {% block content %}
 
+<h1>Mise à jour du document {{document.name}} </h1>
 
-<img src="~/home/antoine/Documents/test.png">
+<table style="width:100%; border: 0px">
+  <tr>
+      <td style="width: 50%; text-align: left; vertical-align: centre; border: 0px"> 
+        <form action="" method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <input type="submit" value="Envoyer">
+        </form>
+      </td>
+      <td style="width: 50%; border: 0px">
+        <div class="slideshow-container">
 
-<h1>Mise à jour du document</h1>
+          <!-- Full-width images with number and caption text -->
+          {% for path in path_files %}
+            <div class="mySlides fade">
+              <img src={{path}} style="width:65%">
+            </div>
+          {% endfor %}
+        
+        
+          <!-- Next and previous buttons -->
+          <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+          <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        </div>
+      </td>
+  </tr>
+  </table>   
 
-<div class="slideshow-container">
 
-  <!-- Full-width images with number and caption text -->
-  {% for path in path_files %}
-    <div class="mySlides fade">
-      <img src=""{{path}} style="width:100%">
-      <div class="text">{{path}}</div>
-    </div>
-  {% endfor %}
-
-
-  <!-- Next and previous buttons -->
-  <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-  <a class="next" onclick="plusSlides(1)">&#10095;</a>
-</div>
 <br>
 
-<form action="" method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" value="Envoyer">
-</form>
+
 
 {% endblock %}

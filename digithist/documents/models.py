@@ -3,6 +3,7 @@ from django.db import models
 class Document(models.Model):
 
     path = models.fields.CharField(max_length=100)
+    name = models.fields.CharField(max_length=100)
     
     #path2 = models.fields.FilePathField(allow_files=False, allow_folders=True)    
     class Type(models.TextChoices):

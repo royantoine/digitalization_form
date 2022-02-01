@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from documents import views
+from digithist import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,4 +28,4 @@ urlpatterns = [
     path('document/add/', views.document_create, name='document-create'),
     path('document/<int:id>/update', views.document_update, name='document-update'),
     path('document/<int:id>/delete', views.document_delete, name='document-delete')
-]
+] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

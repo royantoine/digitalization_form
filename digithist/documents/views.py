@@ -15,9 +15,11 @@ def document_list(request):
 
 def document_detail(request, id):
     document = Document.objects.get(id=id)
+    path_files = [os.path.join(document.path, path_file) for path_file in os.listdir(document.path)]
+    path_files.sort()
     return render(request,
           'documents/document_detail.html',
-         {'document': document})
+         {'document': document, 'path_files': path_files})
 
 def document_create(request):
     if request.method == 'POST':
@@ -36,6 +38,7 @@ def document_create(request):
 def document_update(request, id):
     document = Document.objects.get(id=id)
     path_files = [os.path.join(document.path, path_file) for path_file in os.listdir(document.path)]
+    path_files.sort()
     if request.method == 'POST':
         form = DocumentForm(request.POST, instance=document)
         if form.is_valid():
@@ -46,7 +49,7 @@ def document_update(request, id):
 
     return render(request,
                 'documents/document_update.html',
-                {'form': form, 'path_files': path_files})
+                {'form': form, 'path_files': path_files, "document": document})
 
 def document_delete(request, id):
     document = Document.objects.get(id=id)  
