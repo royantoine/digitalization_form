@@ -7,7 +7,8 @@
     <body>
     
         <nav>
-            <a href="{% url 'document-list' %}">all documents</a>
+            <a href="{% url 'document-list' %}">All Documents</a>
+            <a href="{% url 'documents-export' %}">Export to CSV</a>
         </nav>
         
         {% block content %}{% endblock %}

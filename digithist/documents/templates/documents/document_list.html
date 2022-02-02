@@ -4,15 +4,19 @@
 
 <h1>Liste des documents</h1>
 
-<a href="{% url 'folder-create' %}">Ajouter de nouveaux documents à partir d'un dossier</a>
+<a href="{% url 'folder-create' %}">Ajouter de nouveaux documents à partir d'un dossier</a><p></p> 
+<table>
+    <tbody>
+        {% for document in documents %}
+        <tr>
+            <td><a href="/document/{{ document.id }}/">{{ document.name }}</a></td>
+            <td>(Done: {{ document.done|yesno}})</td>
+            <td><a href="{% url 'document-update' document.id %}">[modifier]</a></td>
+            <td><a href="{% url 'document-delete' document.id %}">[supprimer]</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
-<ul>
- {% for document in documents %}
- <li><a href="/document/{{ document.id }}/">{{ document.name }}</a></li>
- - <a href="{% url 'document-update' document.id %}">[modifier]</a>
- - <a href="{% url 'document-delete' document.id %}">[supprimer]</a>
-
- {% endfor %}
-</ul>
 
 {% endblock %}

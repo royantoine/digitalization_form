@@ -32,8 +32,10 @@
     </tr>
     </table>   
 
-<a href="{% url 'document-list' %}">Retour à la liste des documents</a>
-<a href="{% url 'document-update' document.id %}">Modifier ce document</a>
-<a href="{% url 'document-delete' document.id %}">Supprimer ce document</a>
+<a href="{% url 'document-detail' previous_document %}">Previous document</a>
+<a href="{% url 'document-detail' next_document %}">Next document</a>
+<p></p>
+<a href="{% url 'document-list' %}">Return to list of all documents</a>
+<a href="{% url 'document-update' document.id %}">Modify this document</a>
 
 {% endblock %}

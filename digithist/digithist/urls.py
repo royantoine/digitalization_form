@@ -27,5 +27,6 @@ urlpatterns = [
     path('document/<int:id>/', views.document_detail, name='document-detail'),
     path('document/add/', views.document_create, name='document-create'),
     path('document/<int:id>/update', views.document_update, name='document-update'),
-    path('document/<int:id>/delete', views.document_delete, name='document-delete')
+    path('document/<int:id>/delete', views.document_delete, name='document-delete'),
+    path('document/export', views.export, name='documents-export')
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
