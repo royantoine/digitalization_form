@@ -26,3 +26,12 @@ class Folder(models.Model):
 
     def __str__(self):
         return f'{self.path}'
+
+class Sale(models.Model):
+
+    name = models.fields.CharField(max_length=100)
+    value =models.fields.IntegerField(default=0)
+    path = models.ForeignKey(Document, null=True, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return f'{self.name}'
