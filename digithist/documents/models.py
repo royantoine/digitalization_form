@@ -29,7 +29,7 @@ class Folder(models.Model):
 
 class Sale(models.Model):
 
-    name = models.fields.CharField(max_length=100)
+    name = models.fields.CharField(default="", max_length=100)
     value =models.fields.IntegerField(default=0)
     path = models.ForeignKey(Document, null=True, on_delete=models.SET_NULL)
 

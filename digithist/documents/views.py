@@ -23,6 +23,10 @@ def document_list(request):
 def document_detail(request, id):
     try:
         document = Document.objects.get(id=id)
+        if Sale.objects.all():
+            document_sale_formset = Sale.objects.all().filter(path__path__startswith=document.path)
+        else: 
+            document_sale_formset = []
         path_files = [os.path.join(document.path, path_file) for path_file in os.listdir(document.path)]
         path_files.sort()
         next_document = document.id + 1
@@ -31,6 +35,7 @@ def document_detail(request, id):
             'documents/document_detail.html',
             {
                 'document': document, 
+                'document_sale_formset': document_sale_formset,
                 'path_files': path_files, 
                 'next_document': next_document, 
                 'previous_document': previous_document
@@ -41,47 +46,19 @@ def document_detail(request, id):
 def document_create(request):
     if request.method == 'POST':
         form = DocumentForm(request.POST)
+        sale_formset = SaleFormset(request.POST)
         if form.is_valid():
             document = form.save()
+            document_sale_formset = sale_formset.save()
             return redirect('document-detail', document.id)
 
     else:
         form = DocumentForm()
+        document_sale_formset = SaleFormset()
 
     return render(request,
             'documents/document_create.html',
-            {'form': form})
-
-class document_create(CreateView):
-    form_class = DocumentForm
-    template_name = 'documents/document_create.html'
-    def get_context_data(self, **kwargs):
-        context = super(document_create, self).get_context_data(**kwargs)
-        context['document_sale_formset'] = SaleFormset()
-        return context
-    def post(self, request, *args, **kwargs):
-        self.object = None
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        document_sale_formset = SaleFormset(self.request.POST)
-        if form.is_valid() and document_sale_formset.is_valid():
-            return self.form_valid(form, document_sale_formset)
-        else:
-            return self.form_invalid(form, document_sale_formset)
-    def form_valid(self, form, document_sale_formset):
-        self.object = form.save(commit=False)
-        self.object.save()
-        document_sales = document_sale_formset.save(commit=False)
-        for sale in document_sales:
-            sale.path = self.object
-            sale.save()
-        return redirect('document-detail', self.object.id)
-    def form_invalid(self, form, document_sale_formset):
-        return self.render_to_response(
-            self.get_context_data(form=form,
-                                  document_sale_formset=document_sale_formset
-                                  )
-        )
+            {'form': form, 'document_sale_formset': document_sale_formset})
 
 def document_update(request, id):
     document = Document.objects.get(id=id)
@@ -89,15 +66,21 @@ def document_update(request, id):
     path_files.sort()
     if request.method == 'POST':
         form = DocumentForm(request.POST, instance=document)
+        document_sale_formset = SaleFormset(request.POST, instance=document)
         if form.is_valid():
             form.save()
+            for counter, formset in enumerate(document_sale_formset.forms):
+                if formset.is_valid():
+                    formset.save()
             return redirect('document-detail', document.id)
     else:
         form = DocumentForm(instance=document)
+        document_sale_formset = SaleFormset(instance=document)
 
     return render(request,
                 'documents/document_update.html',
-                {'form': form, 'path_files': path_files, "document": document})
+                {'form': form, 'path_files': path_files, "document": document, "document_sale_formset": document_sale_formset})
+
 
 def document_delete(request, id):
     document = Document.objects.get(id=id)  

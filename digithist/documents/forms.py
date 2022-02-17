@@ -1,6 +1,6 @@
 from django import forms
 from documents.models import Document, Folder, Sale
-from django.forms.models import inlineformset_factory
+from django.forms.models import inlineformset_factory, formset_factory
 
 class DocumentForm(forms.ModelForm):
    class Meta:
