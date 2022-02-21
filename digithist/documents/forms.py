@@ -22,6 +22,7 @@ SaleFormset = inlineformset_factory(
     Document, 
     Sale, 
     form=SaleForm,
-    extra=5
+    extra=0,
+    max_num=None
     #fields=('name',)
 )

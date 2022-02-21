@@ -2,8 +2,15 @@
 
 {% block content %}
 
+
 <h1>Mise à jour du document {{document.name}} </h1>
 
+<div>
+  <style>
+    .hidden {
+      display: none
+  }
+</style>
 <table style="width:100%; border: 0px">
   <tr>
       <td style="width: 50%; text-align: left; vertical-align: centre; border: 0px"> 
@@ -11,14 +18,45 @@
           {% csrf_token %}
           {{ form.as_p }}
           <h2>Sales</h2>
-          {{document_sale_formset.as_p}}
+          {{ document_sale_formset.management_form }}
+          <div id="sales-list">
+            {% for form_ in document_sale_formset %}
+                <div class='sale-form'>
+                    {{ form_.as_p }}
+                </div>
+            {% endfor %}
+          </div>
+          <div id="empty-form" class="hidden">{{ document_sale_formset.empty_form.as_p }}</div>
+          <button id='add-more' type='button'>Add more</button>
           <input type="submit" value="Envoyer">
         </form>
+</div>
+<script> 
+  const addMoreBtn = document.getElementById('add-more')
+  const totalNewForms = document.getElementById('id_sale_set-TOTAL_FORMS')
+
+  addMoreBtn.addEventListener('click', add_new_form)
+
+  function add_new_form(event) {
+    if (event) {
+      event.preventDefault()
+    }
+    const currentSaleForms = document.getElementsByClassName("sale-form")
+    const currentFormCount = currentSaleForms.length //+ 2
+    const formCopyTarget = document.getElementById('sales-list')
+    const copyEmptyFormEl = document.getElementById('empty-form').cloneNode(true)
+    copyEmptyFormEl.setAttribute('class', 'sale-form')
+    copyEmptyFormEl.setAttribute('id', `form-${currentFormCount}`)
+    const regex = new RegExp('__prefix__', 'g')
+    copyEmptyFormEl.innerHTML = copyEmptyFormEl.innerHTML.replace(regex, currentFormCount)
+    totalNewForms.setAttribute('value', currentFormCount + 1)
+    formCopyTarget.append(copyEmptyFormEl)
+  }
+</script>
       </td>
       <td style="width: 50%; border: 0px">
         <div class="slideshow-container">
 
-          <!-- Full-width images with number and caption text -->
           {% for path in path_files %}
             <div class="mySlides fade">
               <img src={{path}} style="width:65%">
@@ -26,15 +64,15 @@
           {% endfor %}
         
         
-          <!-- Next and previous buttons -->
           <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
           <a class="next" onclick="plusSlides(1)">&#10095;</a>
         </div>
       </td>
   </tr>
   </table>   
-<br>
 
 
 
 {% endblock %}
+
+  
